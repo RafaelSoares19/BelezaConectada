@@ -1,7 +1,8 @@
 <?php
 require_once 'conexao.php';
+$conn = conectarBanco(); // ✅ agora a variável $conn existe
 
-if (isset($_POST['cadastrar'])) {
+if ($conn && isset($_POST['cadastrar'])) {
     $nome = $_POST['nome'];
     $email = $_POST['email'];
     $senha = $_POST['senha'];
@@ -12,7 +13,7 @@ if (isset($_POST['cadastrar'])) {
     try {
         $query = "INSERT INTO usuarios (nome, email, senha, data_cadastro) VALUES (:nome, :email, :senha, :data_cadastro)";
         $stmt = $conn->prepare($query);
-        
+
         $stmt->bindParam(':nome', $nome, PDO::PARAM_STR);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->bindParam(':senha', $senha_hash, PDO::PARAM_STR);
@@ -20,7 +21,7 @@ if (isset($_POST['cadastrar'])) {
         
         $stmt->execute();
 
-        header('Location: login.php');
+        echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href='login.php';</script>";
         exit;
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();

@@ -1,35 +1,36 @@
 <?php
 session_start();
 
-// if (!isset($_GET['id'])) {
-//     header('Location: login.php');
-//     exit;
-// }
+if (!isset($_GET['id'])) {
+    header('Location: login.php');
+    exit;
+}
 
-// require_once 'conexao.php';
+require_once 'conexao.php';
+$conn = conectarBanco(); // ✅ adiciona a conexão corretamente
 
-// try {
-//     $query = "SELECT * FROM usuarios WHERE id = :id";
-//     $stmt = $conn->prepare($query);
-//     $stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
-//     $stmt->execute();
-//     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+try {
+    $query = "SELECT * FROM usuarios WHERE id = :id";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
+    $stmt->execute();
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-//     if (!$usuario) {
-//         header('Location: index.php?id=' . $usuario['id']);
-//         exit;
-//     }
-// } catch (PDOException $e) {
-//     echo "Erro: " . $e->getMessage();
-// }
+    if (!$usuario) {
+        header('Location: login.php');
+        exit;
+    }
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
+}
 
+// Valor padrão, se não encontrar
 if (!isset($usuario)) {
   $usuario = [
       'id' => 1,
       'nome' => 'Desenvolvedor'
   ];
 }
-
 ?>
 
 <!DOCTYPE html>

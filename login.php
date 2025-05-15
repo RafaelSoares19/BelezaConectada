@@ -2,6 +2,7 @@
 session_start();
 ob_start();
 require_once 'conexao.php';
+$conn = conectarBanco(); // ✅ Define corretamente a variável $conn
 
 if (isset($_POST['entrar'])) {
     $email = $_POST['email'];
@@ -19,13 +20,14 @@ if (isset($_POST['entrar'])) {
             header('Location: index.php?id=' . $usuario['id'] . '&nome=' . urlencode($usuario['nome']));
             exit; 
         } else {
-            echo "E-mail ou senha incorretos!";
+            echo "<script>alert('E-mail ou senha incorretos!');</script>";
         }
     } catch (PDOException $e) {
         echo "Erro: " . $e->getMessage();
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
