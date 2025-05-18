@@ -1,6 +1,6 @@
 <?php
 require_once 'conexao.php';
-$conn = conectarBanco(); // ✅ agora a variável $conn existe
+$conn = conectarBanco(); 
 
 if ($conn && isset($_POST['cadastrar'])) {
     $nome = $_POST['nome'];
